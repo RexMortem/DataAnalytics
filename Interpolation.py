@@ -1,4 +1,5 @@
-import math 
+import math
+import sys
 
 class Lagrangian():
     def __init__(self, XPoints, YPoints, working=True):
@@ -10,9 +11,14 @@ class Lagrangian():
 
         # if working out is enabled, then print out the working out
         if working:
-            print(f"""
-                
-            """)
+            print("===LANGRANGIAN CREATION===")
+            sys.stdout.write("y = ")
+
+            for i in range(len(XPoints)):
+                sys.stdout.write(f"y{i} ")
+
+            sys.stdout.write("\n = ")
+
 
     def createBasis(self, i, XPoints):
         denom = math.prod(XPoints[i] - XPoints[j] if i != j else 1 for j in range(len(XPoints))) # relies on XPoints being distinct btw
