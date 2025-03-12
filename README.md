@@ -3,6 +3,7 @@ A tool for several data analytics methods
 
 ## Personal To-Do:
 
-- Working Out Steps
+- Different output forms (outputting directly to LaTeX would be ideal)
 - Python Venv
 - brief writeup of each method
+- could move from strings to enums for types in OutputManager

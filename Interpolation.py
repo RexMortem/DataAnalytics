@@ -1,38 +1,42 @@
 import math
 import sys
+from OutputManager import Output
 
+# The strength of Lagrangian Interpolation is that it takes O(n^{2}) time
+# However, you must recompute if you want to add a point (or remove a point)
 class Lagrangian():
-    def __init__(self, XPoints, YPoints, working=True):
+    def __init__(self, XPoints, YPoints, working:Output = None):
         self.X = XPoints
         self.Y = YPoints
 
         # do some computation (remember Lagrangian must be reconstructed from scratch if you want to add/remove new points)
         self.bases = [self.createBasis(i, XPoints) for i in range(len(XPoints))]
 
-        # if working out is enabled, then print out the working out
-        if working:
-            print("\n===LANGRANGIAN CREATION===")
-            sys.stdout.write("y(x) = ")
+        # if working out is enabled, then print out the working out (wO for "working output")
+        if working is not None:
+            wO = "\n===LANGRANGIAN CREATION===\n"
+
+            wO += "y(x) = "
 
             for i in range(len(XPoints)):
-                sys.stdout.write(f"y_{{{i}}}L_{{{i}}}(x)")
+                wO += f"y_{{{i}}}L_{{{i}}}(x)"
 
                 if (i != (len(XPoints)-1)):
-                    sys.stdout.write(" + ")
+                    wO += " + "
 
-            sys.stdout.write("\n = ")
+            wO += "\n = "
 
             for i in range(len(XPoints)):
-                sys.stdout.write(f"{YPoints[i]}L_{{{i}}}")
+                wO += f"{YPoints[i]}L_{{{i}}}"
 
                 if (i != (len(XPoints)-1)):
-                    sys.stdout.write(" + ")
+                    wO += " + "
 
-            sys.stdout.write(".\n\n\n")
+            wO += ".\n\n\n"
 
             # will have to do some redundant work to output the bases
             for i in range(len(self.X)):
-                sys.stdout.write(f"L_{{{i}}}(x) = ")
+                wO += f"L_{{{i}}}(x) = "
 
                 genNominator = "" # general form 
                 genDenominator = ""
@@ -61,35 +65,38 @@ class Lagrangian():
 
                     fulDenominator *= XPoints[i] - XPoints[j]
 
-                sys.stdout.write(f"\\frac{{{genNominator}}}{{{genDenominator}}}\n")
-                sys.stdout.write(f"=\\frac{{{spNominator}}}{{{spDenominator}}}\n")
-                sys.stdout.write(f"=\\frac{{{spNominator}}}{{{parDenominator}}}\n")
-                sys.stdout.write(f"=\\frac{{{spNominator}}}{{{fulDenominator}}}.\n\n\n")
+                wO += f"\\frac{{{genNominator}}}{{{genDenominator}}}\n"
+                wO += f"=\\frac{{{spNominator}}}{{{spDenominator}}}\n"
+                wO += f"=\\frac{{{spNominator}}}{{{parDenominator}}}\n"
+                wO += f"=\\frac{{{spNominator}}}{{{fulDenominator}}}.\n\n\n"
+
+            # return wO
+            working.output = wO
 
     def createBasis(self, i, XPoints):
         denom = math.prod(XPoints[i] - XPoints[j] if i != j else 1 for j in range(len(XPoints))) # relies on XPoints being distinct btw
         return lambda x: math.prod([x - XPoints[j] if i != j else 1 for j in range(len(XPoints))])/denom
 
-    def evaluate(self, x, working=True):
+    def evaluate(self, x, working:Output = None):
         solution = sum(self.Y[i] * self.bases[i](x) for i in range(len(self.X)))
 
-        if working: # for this, we will have to redo some basis work to output them
-            print("\n===LAGRANGIAN EVALUATION===")
+        if working is not None: # for this, we will have to redo some basis work to output them
+            wO = "\n===LAGRANGIAN EVALUATION===\n"
             
-            sys.stdout.write(f"y({x}) = ")
+            wO += f"y({x}) = "
 
             for i in range(len(self.X)):
-                sys.stdout.write(f"{self.Y[i]}L_{{{i}}}({x})")
+                wO += f"{self.Y[i]}L_{{{i}}}({x})"
 
                 if (i != (len(self.X)-1)):
-                    sys.stdout.write(" + ")
+                    wO += " + "
                 
-            sys.stdout.write(".\n\n\n")
+            wO += ".\n\n\n"
 
             baseEvaluations = [None] * len(self.X)
 
             for i in range(len(self.X)):
-                sys.stdout.write(f"L_{{{i}}}({x}) = ")
+                wO += f"L_{{{i}}}({x}) = "
 
                 fstNominator = "" # first nominator
                 denominator = 1 # we just use the evaluated denom (constructing the lagrangian prints out the denom steps)
@@ -111,22 +118,23 @@ class Lagrangian():
                     fulNominator *= x - self.X[j]
                     denominator *= self.X[i] - self.X[j]
 
-                sys.stdout.write(f"\\frac{{{fstNominator}}}{{{denominator}}}\n")
-                sys.stdout.write(f"=\\frac{{{parNominator}}}{{{denominator}}}\n")
-                sys.stdout.write(f"=\\frac{{{fulNominator}}}{{{denominator}}}\n")
-                sys.stdout.write(f"={fulNominator/denominator}.\n\n\n")
+                wO += f"\\frac{{{fstNominator}}}{{{denominator}}}\n"
+                wO += f"=\\frac{{{parNominator}}}{{{denominator}}}\n"
+                wO += f"=\\frac{{{fulNominator}}}{{{denominator}}}\n"
+                wO += f"={fulNominator/denominator}.\n\n\n"
 
                 baseEvaluations[i] = fulNominator/denominator
             
-        # final solution
-        sys.stdout.write(f"y({x}) = ")
+            # final solution
+            wO += f"y({x}) = "
 
-        for i in range(len(self.X)):
-            sys.stdout.write(f"{self.Y[i]}({baseEvaluations[i]})")
+            for i in range(len(self.X)):
+                wO += f"{self.Y[i]}({baseEvaluations[i]})"
 
-            if (i != (len(self.X)-1)):
-                sys.stdout.write(" + ")
+                if (i != (len(self.X)-1)):
+                    wO += " + "
 
-        sys.stdout.write(f"\n= {solution}.\n\n\n")
+            wO += f"\n= {solution}.\n\n\n"
+            working.output = wO
 
         return solution
