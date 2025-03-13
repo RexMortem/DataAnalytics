@@ -1,5 +1,7 @@
 # DataAnalytics
-A tool for several data analytics methods
+A tool mainly for doing Lagrange and APCA.
+
+Refer to **main.py** for an example usage!
 
 ## Personal To-Do:
 

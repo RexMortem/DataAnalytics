@@ -25,3 +25,6 @@ print("Squared Error: ", sumSquaredError(X, [7, 5, 3, 3, 3, 4, 4, 6]))
 
 # Newton stuff
 print("Non-integer choose function: ", choose(2, 2.4))
+
+print(choose(1, 2.4))
+print(choose(2, 2.4))
