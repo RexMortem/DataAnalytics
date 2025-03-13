@@ -20,6 +20,5 @@ output.write()
 
 # APCA
 
-APCA([7, 5, 5, 3, 2, 4, 4, 6], N=3)
 X,Y = APCA([7, 5, 3, 3, 3, 4, 4, 6], N=3)
-print(sumSquaredError(X, [7, 5, 3, 3, 3, 4, 4, 6]))
+print("Squared Error:", sumSquaredError(X, [7, 5, 3, 3, 3, 4, 4, 6]))

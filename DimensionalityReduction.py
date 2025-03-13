@@ -196,6 +196,7 @@ def timeSeriesFromAPCA(Y):
 # 
 # this reduces the error.
 def APCA(X, N=1, working:Output = None):
+    print("===APCA===")
     if len(X) < 1: 
         print("please provide a non-empty time-series!")
         return None 
@@ -228,6 +229,6 @@ def APCA(X, N=1, working:Output = None):
 
     # create time series, in case that's what weiren wants idk
     X = timeSeriesFromAPCA(Y)
-    print("APCA Answer: ", X, Y)
+    print("\nAPCA Answer: ", X, Y,"\n")
 
     return X,Y
