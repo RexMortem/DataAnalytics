@@ -139,6 +139,24 @@ class Lagrangian():
 
         return solution
     
+def factorial(n):
+    toReturn = 1
+
+    for i in range(1, n+1):
+        toReturn *= i 
+    
+    return toReturn 
+
+# silly choose function
+def choose(n, t):
+    nominator = 1
+
+    for i in range(n):
+        nominator *= (t - i)
+
+    denominator = factorial(n)
+
+    return nominator/denominator
 
 # Allows incremental update (new points added without recomputing the entire thing), unlike Lagrangian
 # can apply horner scheme to make computation fast

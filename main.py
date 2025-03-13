@@ -1,4 +1,4 @@
-from Interpolation import Lagrangian
+from Interpolation import Lagrangian, factorial, choose
 from DimensionalityReduction import APCA, mergeLeastDerivation
 from FractionWrapper import valsToFractions
 from Regression import sumAbsoluteError, sumSquaredError
@@ -21,4 +21,7 @@ output.write()
 # APCA
 
 X,Y = APCA([7, 5, 3, 3, 3, 4, 4, 6], N=3)
-print("Squared Error:", sumSquaredError(X, [7, 5, 3, 3, 3, 4, 4, 6]))
+print("Squared Error: ", sumSquaredError(X, [7, 5, 3, 3, 3, 4, 4, 6]))
+
+# Newton stuff
+print("Non-integer choose function: ", choose(2, 2.4))
