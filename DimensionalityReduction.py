@@ -188,9 +188,13 @@ def timeSeriesFromAPCA(Y):
         startIndex = endIndex
 
     return X
-# Ah yes, the Adaptive Piecewise Constant Approximation
-# Do I know what that means? Nope! 
-# But here's an implementation
+
+# Adaptive Piecewise Constant Approximation (APCA)
+# It can allocate segments of varying lengths, and allocates:
+# - shorter segments to high-variance regions
+# - longer segments to low-variance regions
+# 
+# this reduces the error.
 def APCA(X, N=1, working:Output = None):
     if len(X) < 1: 
         print("please provide a non-empty time-series!")

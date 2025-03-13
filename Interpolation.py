@@ -138,3 +138,10 @@ class Lagrangian():
             working.output = wO
 
         return solution
+    
+
+# Allows incremental update (new points added without recomputing the entire thing), unlike Lagrangian
+# can apply horner scheme to make computation fast
+# class Newton():
+#     def __init__(self):
+#         pass

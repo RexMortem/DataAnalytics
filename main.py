@@ -1,6 +1,7 @@
 from Interpolation import Lagrangian
 from DimensionalityReduction import APCA, mergeLeastDerivation
 from FractionWrapper import valsToFractions
+from Regression import sumAbsoluteError, sumSquaredError
 from OutputManager import Output
 
 output = Output()
@@ -23,6 +24,7 @@ fileOutput = Output(type="File")
 # APCA
 
 APCA([7, 5, 5, 3, 2, 4, 4, 6], N=3)
-APCA([7, 5, 3, 3, 3, 4, 4, 6], N=3)
+X,Y = APCA([7, 5, 3, 3, 3, 4, 4, 6], N=3)
+print(sumSquaredError(X, [7, 5, 3, 3, 3, 4, 4, 6]))
 
 # Linear Least Squares
